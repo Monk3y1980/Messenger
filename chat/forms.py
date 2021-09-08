@@ -1,15 +1,16 @@
-from allauth.account.forms import SignupForm
-from django import forms
+# from allauth.account.forms import SignupForm
+# from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+User = get_user_model()
 
 
-class CustomSignUpForm(SignupForm):
-    age = forms.IntegerField(label='id_age', required=True,
-                             widget=forms.TextInput(
-                                 attrs={"type": "number", "placeholder": "Возраст", "min": "1"}
-                             ))
+class CustomSignUpForm(UserCreationForm):
 
-    def save(self, request):
-        user = super(CustomSignUpForm, self).save(request)
-        user.age = int(self.cleaned_data['age'])
-        user.save()
-        return user
+    class Meta:
+        model = User
+        fields = ('age',)
+
+
+
+
